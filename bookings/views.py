@@ -6,6 +6,8 @@ from hotels.models import Room
 from .forms import BookingForm
 from .models import Booking
 
+def is_manager(user):
+    return user.groups.filter(name='Manager').exists()
 
 @login_required
 def create_booking(request, room_id):
@@ -56,6 +58,28 @@ def my_bookings(request):
     return render(
         request,
         'bookings/my_bookings.html',
+        {
+            'bookings': bookings
+        }
+    )
+
+@login_required
+def manager_bookings(request):
+    if not is_manager(request.user):
+        return render(
+            request,
+            'bookings/access_denied.html'
+        )
+
+    bookings = Booking.objects.select_related(
+        'user',
+        'room',
+        'room__hotel'
+    ).all()
+
+    return render(
+        request,
+        'bookings/manager_bookings.html',
         {
             'bookings': bookings
         }

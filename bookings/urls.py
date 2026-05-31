@@ -16,4 +16,10 @@ urlpatterns = [
         views.my_bookings,
         name='my_bookings'
     ),
+
+    path(
+        'manager/',
+        views.manager_bookings,
+        name='manager_bookings'
+    ),
 ]

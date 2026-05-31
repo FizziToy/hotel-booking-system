@@ -1,0 +1,17 @@
+<h1>Усі бронювання</h1>
+
+{% for booking in bookings %}
+    <div>
+        <h2>{{ booking.room.hotel.name }} — {{ booking.room.title }}</h2>
+
+        <p>Клієнт: {{ booking.user.username }}</p>
+        <p>Дата заїзду: {{ booking.check_in }}</p>
+        <p>Дата виїзду: {{ booking.check_out }}</p>
+        <p>Гості: {{ booking.guests }}</p>
+        <p>Статус: {{ booking.status }}</p>
+    </div>
+
+    <hr>
+{% empty %}
+    <p>Бронювань поки немає.</p>
+{% endfor %}
