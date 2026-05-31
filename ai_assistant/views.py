@@ -1,7 +1,6 @@
-import os
+import requests
 
 from django.shortcuts import render
-from openai import OpenAI
 
 from hotels.models import Room
 
@@ -25,38 +24,32 @@ def ai_recommendation(request):
                 f"місткість: {room.capacity} гостей. "
             )
 
-        client = OpenAI(
-            api_key=os.getenv('OPENAI_API_KEY')
+        prompt = (
+            'Ти AI-помічник системи бронювання готелів. '
+            'Рекомендуй користувачу тільки ті готелі та номери, '
+            'які є в списку.\n\n'
+            f'Доступні номери: {rooms_text}\n\n'
+            f'Запит користувача: {user_prompt}'
         )
 
         try:
-            response = client.chat.completions.create(
-                model='gpt-4o-mini',
-                messages=[
-                    {
-                        'role': 'system',
-                        'content': (
-                            'Ти AI-помічник системи бронювання готелів. '
-                            'Рекомендуй користувачу тільки ті готелі та номери, '
-                            'які є в переданому списку.'
-                        )
-                    },
-                    {
-                        'role': 'user',
-                        'content': (
-                            f"Доступні номери: {rooms_text}\n\n"
-                            f"Запит користувача: {user_prompt}"
-                        )
-                    }
-                ]
+            response = requests.post(
+                'http://localhost:11434/api/generate',
+                json={
+                    'model': 'llama3.2',
+                    'prompt': prompt,
+                    'stream': False
+                },
+                timeout=120
             )
 
-            answer = response.choices[0].message.content
+            data = response.json()
+            answer = data.get('response')
 
         except Exception:
             answer = (
-                'AI-сервіс тимчасово недоступний або перевищено квоту API. '
-                'Для демонстрації: рекомендую переглянути доступні номери у списку готелів.'
+                'Локальний AI-сервіс Ollama недоступний. '
+                'Перевірте, чи запущена Ollama та модель llama3.2.'
             )
 
     return render(
