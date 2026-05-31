@@ -1,0 +1,25 @@
+<h1>AI-рекомендація готелю</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>
+        Опишіть, який номер ви шукаєте:
+    </label>
+
+    <br>
+
+    <textarea name="prompt" rows="5" cols="60"></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Отримати рекомендацію
+    </button>
+</form>
+
+{% if answer %}
+    <h2>Відповідь AI:</h2>
+
+    <p>{{ answer }}</p>
+{% endif %}
