@@ -1,0 +1,23 @@
+<h1>Мої бронювання</h1>
+
+{% for booking in bookings %}
+    <div>
+        <h2>{{ booking.room.title }}</h2>
+
+        <p>Готель: {{ booking.room.hotel.name }}</p>
+
+        <p>Дата заїзду: {{ booking.check_in }}</p>
+
+        <p>Дата виїзду: {{ booking.check_out }}</p>
+
+        <p>Кількість гостей: {{ booking.guests }}</p>
+
+        <p>Статус: {{ booking.status }}</p>
+
+        <p>Сума: {{ booking.total_price }} грн</p>
+    </div>
+
+    <hr>
+{% empty %}
+    <p>У вас поки немає бронювань.</p>
+{% endfor %}

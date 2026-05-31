@@ -1,0 +1,17 @@
+<h1>Список готелів</h1>
+
+{% for hotel in hotels %}
+    <div>
+        <h2>
+            <a href="{% url 'hotels:hotel_detail' hotel.id %}">
+                {{ hotel.name }}
+            </a>
+        </h2>
+        <p>Місто: {{ hotel.city }}</p>
+        <p>Адреса: {{ hotel.address }}</p>
+        <p>Рейтинг: {{ hotel.rating }}</p>
+    </div>
+    <hr>
+{% empty %}
+    <p>Готелів поки немає.</p>
+{% endfor %}

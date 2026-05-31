@@ -1,0 +1,36 @@
+<h1>{{ hotel.name }}</h1>
+
+<p><strong>Місто:</strong> {{ hotel.city }}</p>
+
+<p><strong>Адреса:</strong> {{ hotel.address }}</p>
+
+<p><strong>Опис:</strong> {{ hotel.description }}</p>
+
+<p><strong>Рейтинг:</strong> {{ hotel.rating }}</p>
+<h2>Номери</h2>
+
+{% for room in hotel.rooms.all %}
+    <div>
+        <h3>{{ room.title }}</h3>
+
+        <p>
+            Опис: {{ room.description }}
+        </p>
+
+        <p>
+            Ціна за ніч: {{ room.price_per_night }} грн
+        </p>
+
+        <p>
+            Кількість гостей: {{ room.capacity }}
+        </p>
+        <a href="{% url 'bookings:create_booking' room.id %}">
+            Забронювати
+        </a>
+    </div>
+
+    <hr>
+
+{% empty %}
+    <p>Номерів поки немає.</p>
+{% endfor %}

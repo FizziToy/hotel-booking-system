@@ -1,0 +1,19 @@
+<h1>Бронювання номера</h1>
+
+<h2>{{ room.title }}</h2>
+
+<p>
+    Ціна за ніч: {{ room.price_per_night }} грн
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Забронювати
+    </button>
+
+</form>
