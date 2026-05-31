@@ -1,5 +1,5 @@
-from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.urls import path
 
 from . import views
 
@@ -10,6 +10,12 @@ urlpatterns = [
         'register/',
         views.register,
         name='register'
+    ),
+
+    path(
+        'verify-email/<uidb64>/<token>/',
+        views.verify_email,
+        name='verify_email'
     ),
 
     path(
