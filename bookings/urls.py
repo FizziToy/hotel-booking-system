@@ -22,4 +22,21 @@ urlpatterns = [
         views.manager_bookings,
         name='manager_bookings'
     ),
+
+    path(
+    'manager/<int:booking_id>/confirm/',
+    views.confirm_booking,
+    name='confirm_booking'
+    ),
+
+    path(
+        'manager/<int:booking_id>/cancel/',
+        views.cancel_booking,
+        name='cancel_booking'
+    ),
+    path(
+    'cancel/<int:booking_id>/',
+    views.cancel_my_booking,
+    name='cancel_my_booking'
+    ),
 ]

@@ -1,9 +1,21 @@
-<h1>Email підтверджено</h1>
+{% extends 'base.html' %}
 
-<p>
-    Ваш email успішно підтверджено.
-</p>
+{% block content %}
 
-<a href="{% url 'accounts:login' %}">
-    Увійти
-</a>
+<div class="auth-wrapper">
+    <div class="auth-card text-center">
+
+        <h1>Email підтверджено</h1>
+
+        <p class="text-muted">
+            Ваш email успішно підтверджено.
+        </p>
+
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary mt-3">
+            Увійти
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

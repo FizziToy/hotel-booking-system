@@ -16,3 +16,16 @@ class BookingForm(forms.Form):
         label='Кількість гостей',
         min_value=1
     )
+
+    def __init__(self, *args, room=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.room = room
+
+        if room is not None:
+            self.fields['guests'].max_value = room.capacity
+
+            self.fields['guests'].widget.attrs.update({
+                'max': room.capacity,
+                'min': 1
+            })

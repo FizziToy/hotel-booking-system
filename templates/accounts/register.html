@@ -1,11 +1,35 @@
-<h1>Реєстрація</h1>
+{% extends 'base.html' %}
 
-<form method="post">
-    {% csrf_token %}
+{% block content %}
 
-    {{ form.as_p }}
+<div class="auth-wrapper">
+    <div class="auth-card">
 
-    <button type="submit">
-        Зареєструватися
-    </button>
-</form>
+        <div class="auth-title">
+            <h1>Реєстрація</h1>
+            <p>Створіть акаунт для бронювання номерів</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="auth-form">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">
+                Зареєструватися
+            </button>
+        </form>
+
+        <p class="auth-bottom-text">
+            Уже маєте акаунт?
+            <a href="{% url 'accounts:login' %}">
+                Увійти
+            </a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

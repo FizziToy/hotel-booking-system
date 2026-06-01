@@ -7,6 +7,16 @@ from django.utils.encoding import force_bytes, force_str
 
 from .forms import RegisterForm
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        'accounts/profile.html'
+    )
+
 
 User = get_user_model()
 

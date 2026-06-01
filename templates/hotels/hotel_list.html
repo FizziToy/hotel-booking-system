@@ -1,17 +1,51 @@
-<h1>Список готелів</h1>
+{% extends 'base.html' %}
 
-{% for hotel in hotels %}
-    <div>
-        <h2>
-            <a href="{% url 'hotels:hotel_detail' hotel.id %}">
-                {{ hotel.name }}
-            </a>
-        </h2>
-        <p>Місто: {{ hotel.city }}</p>
-        <p>Адреса: {{ hotel.address }}</p>
-        <p>Рейтинг: {{ hotel.rating }}</p>
-    </div>
-    <hr>
-{% empty %}
-    <p>Готелів поки немає.</p>
-{% endfor %}
+{% block content %}
+
+<div class="mb-4">
+    <h1 class="fw-bold">Список готелів</h1>
+    <p class="text-muted">
+        Оберіть готель для перегляду доступних номерів та бронювання.
+    </p>
+</div>
+
+<div class="row">
+    {% for hotel in hotels %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    {% if hotel.image %}
+                        <img src="{{ hotel.image.url }}"
+                            class="card-img-top"
+                            style="height:220px; object-fit:cover;">
+                    {% endif %}
+                    <h4 class="card-title">
+                        {{ hotel.name }}
+                    </h4>
+
+                    <p class="card-text">
+                        <strong>Місто:</strong> {{ hotel.city }}
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Рейтинг:</strong> {% if hotel.average_rating %}
+                                                    {{ hotel.average_rating|floatformat:1 }}
+                                                {% else %}
+                                                    Немає оцінок
+                                                {% endif %}
+                    </p>
+
+                    <a href="{% url 'hotels:hotel_detail' hotel.id %}" class="btn btn-primary">
+                        Детальніше
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            Готелів поки немає.
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -10,4 +10,10 @@ urlpatterns = [
         views.ai_recommendation,
         name='recommendation'
     ),
+
+    path(
+        'chat/',
+        views.ai_chat_api,
+        name='chat_api'
+    ),
 ]

@@ -1,17 +1,103 @@
-<h1>Усі бронювання</h1>
+{% extends 'base.html' %}
 
-{% for booking in bookings %}
-    <div>
-        <h2>{{ booking.room.hotel.name }} — {{ booking.room.title }}</h2>
+{% block content %}
 
-        <p>Клієнт: {{ booking.user.username }}</p>
-        <p>Дата заїзду: {{ booking.check_in }}</p>
-        <p>Дата виїзду: {{ booking.check_out }}</p>
-        <p>Гості: {{ booking.guests }}</p>
-        <p>Статус: {{ booking.status }}</p>
+<div class="mb-4">
+    <h1 class="fw-bold">Панель менеджера</h1>
+    <p class="text-muted">
+        Перегляд усіх бронювань та керування їх статусами.
+    </p>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Готель</th>
+                        <th>Номер</th>
+                        <th>Клієнт</th>
+                        <th>Дати</th>
+                        <th>Гості</th>
+                        <th>Статус</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.room.hotel.name }}</td>
+                            <td>{{ booking.room.title }}</td>
+                            <td>{{ booking.user.username }}</td>
+                            <td>
+                                {{ booking.check_in }} —
+                                {{ booking.check_out }}
+                            </td>
+                            <td>{{ booking.guests }}</td>
+                            <td>
+                                {% if booking.status == 'pending' %}
+                                    <span class="badge bg-warning text-dark">
+                                        Очікує
+                                    </span>
+                                {% elif booking.status == 'confirmed' %}
+                                    <span class="badge bg-success">
+                                        Підтверджено
+                                    </span>
+                                {% elif booking.status == 'cancelled' %}
+                                    <span class="badge bg-danger">
+                                        Скасовано
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                {% if booking.status == 'pending' %}
+
+                                    <a href="{% url 'bookings:confirm_booking' booking.id %}"
+                                    class="btn btn-sm btn-success">
+                                        Підтвердити
+                                    </a>
+
+                                    <a href="{% url 'bookings:cancel_booking' booking.id %}"
+                                    class="btn btn-sm btn-outline-danger">
+                                        Скасувати
+                                    </a>
+
+                                {% elif booking.status == 'confirmed' %}
+
+                                    <a href="{% url 'bookings:cancel_booking' booking.id %}"
+                                    class="btn btn-sm btn-outline-danger">
+                                        Скасувати
+                                    </a>
+
+                                {% elif booking.status == 'cancelled' %}
+
+                                    <a href="{% url 'bookings:confirm_booking' booking.id %}"
+                                    class="btn btn-sm btn-success">
+                                        Відновити
+                                    </a>
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7">
+                                <div class="alert alert-info mb-0">
+                                    Бронювань поки немає.
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
+</div>
 
-    <hr>
-{% empty %}
-    <p>Бронювань поки немає.</p>
-{% endfor %}
+{% endblock %}

@@ -1,5 +1,21 @@
-<h1>Помилка підтвердження</h1>
+{% extends 'base.html' %}
 
-<p>
-    Посилання підтвердження недійсне або застаріле.
-</p>
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card text-center">
+
+        <h1>Помилка підтвердження</h1>
+
+        <p class="text-muted">
+            Посилання підтвердження недійсне або застаріле.
+        </p>
+
+        <a href="{% url 'accounts:register' %}" class="btn btn-primary mt-3">
+            Зареєструватися знову
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

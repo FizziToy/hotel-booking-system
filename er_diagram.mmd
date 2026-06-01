@@ -15,6 +15,13 @@ erDiagram
         boolean email_verified
     }
 
+    UserProfile {
+        int id PK
+        int user_id FK
+        string bio
+        date created_at
+    }
+
     Hotel {
         int id PK
         string name
@@ -22,6 +29,7 @@ erDiagram
         string address
         string description
         float rating
+        string image
         int owner_id FK
         date created_at
     }
@@ -49,6 +57,7 @@ erDiagram
         date created_at
     }
 
+    User ||--o{ UserProfile : contains
     User ||--o{ Hotel : contains
     Hotel ||--o{ Room : contains
     User ||--o{ Booking : contains

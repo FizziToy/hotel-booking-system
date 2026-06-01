@@ -1,13 +1,21 @@
-<h1>Реєстрація успішна</h1>
+{% extends 'base.html' %}
 
-<p>
-    Для завершення реєстрації підтвердіть email.
-</p>
+{% block content %}
 
-<p>
-    Демонстраційне посилання підтвердження:
-</p>
+<div class="auth-wrapper">
+    <div class="auth-card text-center">
 
-<a href="{{ verification_url }}">
-    Підтвердити email
-</a>
+        <h1>Реєстрація успішна</h1>
+
+        <p class="text-muted">
+            Для завершення реєстрації підтвердіть email.
+        </p>
+
+        <a href="{{ verification_url }}" class="btn btn-primary mt-3">
+            Підтвердити email
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

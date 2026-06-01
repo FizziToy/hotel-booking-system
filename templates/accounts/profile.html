@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-7">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-5">
+
+                <h1 class="fw-bold mb-4">
+                    Мій акаунт
+                </h1>
+
+                <hr>
+
+                <p>
+                    <strong>Логін:</strong>
+                    {{ user.username }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ user.email }}
+                </p>
+
+                <p>
+                    
+                <strong>Телефон:</strong>
+                    {% if user.phone %}
+                        {{ user.phone }}
+                    {% else %}
+                        Не вказано
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>Дата реєстрації:</strong>
+                    {{ user.date_joined|date:"d.m.Y" }}
+                </p>
+
+                {% if user.groups.all %}
+                    <p>
+                        <strong>Роль:</strong>
+                        Менеджер
+                    </p>
+                {% else %}
+                    <p>
+                        <strong>Роль:</strong>
+                        Клієнт
+                    </p>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

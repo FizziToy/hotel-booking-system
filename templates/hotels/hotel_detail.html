@@ -1,36 +1,164 @@
-<h1>{{ hotel.name }}</h1>
+{% extends 'base.html' %}
 
-<p><strong>Місто:</strong> {{ hotel.city }}</p>
+{% block content %}
 
-<p><strong>Адреса:</strong> {{ hotel.address }}</p>
+<div class="mb-4">
+    <a href="{% url 'hotels:hotel_list' %}" class="btn btn-outline-secondary mb-3">
+        ← Назад до готелів
+    </a>
 
-<p><strong>Опис:</strong> {{ hotel.description }}</p>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            <h1 class="fw-bold mb-3">
+                {{ hotel.name }}
+            </h1>
 
-<p><strong>Рейтинг:</strong> {{ hotel.rating }}</p>
-<h2>Номери</h2>
+            {% if hotel.image %}
+                <img src="{{ hotel.image.url }}"
+                    class="hotel-detail-image">
+            {% endif %}
 
-{% for room in hotel.rooms.all %}
+            <p class="mb-2">
+                <strong>Місто:</strong> {{ hotel.city }}
+            </p>
+
+            <p class="mb-2">
+                <strong>Адреса:</strong> {{ hotel.address }}
+            </p>
+
+            <p class="mb-2">
+                <strong>Рейтинг:</strong>
+                <span class="badge bg-warning text-dark">
+                    {% if hotel.average_rating %}
+                        {{ hotel.average_rating|floatformat:1 }} / 5
+                    {% else %}
+                        Немає оцінок
+                    {% endif %}
+                </span>
+            </p>
+
+            <p class="text-muted mt-3">
+                {{ hotel.description }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<h2 class="fw-bold mb-3">
+    Доступні номери
+</h2>
+
+<div class="row">
+    {% for room in hotel.rooms.all %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4">
+                    <h4 class="card-title">
+                        {{ room.title }}
+                    </h4>
+
+                    <p class="text-muted">
+                        {{ room.description }}
+                    </p>
+
+                    <p>
+                        <strong>Ціна за ніч:</strong>
+                        <span class="fs-5 fw-bold text-primary">
+                            {{ room.price_per_night }} грн
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Кількість гостей:</strong>
+                        {{ room.capacity }}
+                    </p>
+
+                    {% if room.is_available %}
+                        <span class="badge bg-success mb-3">
+                             Вільний для бронювання
+                        </span>
+
+                        <br>
+
+                        <a href="{% url 'bookings:create_booking' room.id %}"
+                           class="btn btn-primary mt-3">
+                            Забронювати
+                        </a>
+                    {% else %}
+                        <span class="badge bg-secondary">
+                            Немає вільних місць
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            Номерів поки немає.
+        </div>
+    {% endfor %}
+</div>
+
+<hr class="my-5">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
     <div>
-        <h3>{{ room.title }}</h3>
+        <h2 class="fw-bold mb-1">
+            Відгуки гостей
+        </h2>
 
-        <p>
-            Опис: {{ room.description }}
+        <p class="text-muted mb-0">
+            Середня оцінка:
+            {% if hotel.average_rating %}
+                {{ hotel.average_rating|floatformat:1 }} / 5
+            {% else %}
+                Немає оцінок
+            {% endif %}
         </p>
-
-        <p>
-            Ціна за ніч: {{ room.price_per_night }} грн
-        </p>
-
-        <p>
-            Кількість гостей: {{ room.capacity }}
-        </p>
-        <a href="{% url 'bookings:create_booking' room.id %}">
-            Забронювати
-        </a>
     </div>
 
-    <hr>
+    {% if user.is_authenticated %}
+        <a href="{% url 'reviews:create_review' hotel.id %}"
+           class="btn btn-primary">
+            ⭐ Залишити відгук
+        </a>
+    {% endif %}
 
-{% empty %}
-    <p>Номерів поки немає.</p>
-{% endfor %}
+</div>
+
+<div class="reviews-scroll">
+    {% for review in reviews %}
+        <div class="review-card">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <strong>
+                            {{ review.user.username }}
+                        </strong>
+
+                        <span class="badge bg-warning text-dark">
+                            {{ review.rating }} / 5
+                        </span>
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        {{ review.created_at|date:"d.m.Y H:i" }}
+                    </p>
+
+                    <p class="mb-0">
+                        {{ review.comment }}
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            Відгуків поки немає.
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

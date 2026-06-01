@@ -1,11 +1,48 @@
-<h1>Бронювання успішно створене</h1>
+{% extends 'base.html' %}
 
-<p>Номер: {{ booking.room.title }}</p>
+{% block content %}
 
-<p>Дата заїзду: {{ booking.check_in }}</p>
+<div class="auth-wrapper">
+    <div class="auth-card text-center">
 
-<p>Дата виїзду: {{ booking.check_out }}</p>
+        <h1>Бронювання створено</h1>
 
-<p>Кількість гостей: {{ booking.guests }}</p>
+        <p class="text-muted">
+            Ваше бронювання очікує підтвердження менеджером.
+        </p>
 
-<p>Статус: {{ booking.status }}</p>
+        <p>
+            <strong>Номер:</strong>
+            {{ booking.room.title }}
+        </p>
+
+        <p>
+            <strong>Дата заїзду:</strong>
+            {{ booking.check_in }}
+        </p>
+
+        <p>
+            <strong>Дата виїзду:</strong>
+            {{ booking.check_out }}
+        </p>
+
+        <p>
+            <strong>Кількість гостей:</strong>
+            {{ booking.guests }}
+        </p>
+
+        <p>
+            <strong>Сума:</strong>
+            <span class="fw-bold text-primary">
+                {{ booking.total_price }} грн
+            </span>
+        </p>
+
+        <a href="{% url 'bookings:my_bookings' %}" class="btn btn-primary mt-3">
+            Перейти до моїх бронювань
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

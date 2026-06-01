@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'hotels',
     'bookings',
     'ai_assistant',
+    'reviews',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,16 +130,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 AUTH_USER_MODEL = 'accounts.User'
 
-LOGIN_REDIRECT_URL = '/bookings/my/'
+LOGIN_REDIRECT_URL = '/hotels/'
 LOGOUT_REDIRECT_URL = '/hotels/'
 LOGIN_URL = '/accounts/login/'
 
 SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT') == 'True'
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE') == 'True'
 CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE') == 'True'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
